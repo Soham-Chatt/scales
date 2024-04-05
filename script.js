@@ -1,9 +1,26 @@
 let scales = {};
 let chords = {};
+let currentMode = "Major";
 const enharmonics = {
   'C#': 'Db', 'D#': 'Eb', 'F#': 'Gb', 'G#': 'Ab', 'A#': 'Bb',
   'B#': 'C', 'E#': 'F',
 };
+
+const majorToMinorMapping = {
+  "C Major": "A Minor",
+  "G Major": "E Minor",
+  "D Major": "B Minor",
+  "A Major": "F# Minor",
+  "E Major": "C# Minor",
+  "B Major": "G# Minor",
+  "F# Major": "D# Minor",
+  "C# Major": "A# Minor",
+
+  "F Major": "D Minor",
+  "Bb Major": "G Minor",
+  "Eb Major": "C Minor"
+};
+
 
 fetch("./info.json")
   .then(response => response.json())
@@ -16,6 +33,13 @@ fetch("./info.json")
 document.getElementById('keySelect').addEventListener('change', function () {
   let selectedKey = this.value;
   displayKeyDetails(selectedKey);
+});
+
+document.getElementById('switchMode').addEventListener('click', function () {
+  currentMode = currentMode === "Major" ? "Minor" : "Major";
+  this.textContent = currentMode;
+  updateKeySelectOptions();
+  clearSelectedNotes();
 });
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -37,9 +61,29 @@ document.addEventListener('DOMContentLoaded', function () {
   initSelectOptions();
 });
 
-
 document.getElementById('clearNotes').onclick = clearSelectedNotes;
 document.getElementById('keyTable').style.display = 'none';
+
+
+function updateKeySelectOptions() {
+  let keySelect = document.getElementById('keySelect');
+  keySelect.innerHTML = '<option selected>Choose a key</option>';
+
+  if (currentMode === "Major") {
+    Object.keys(scales).forEach(key => {
+      if (key.endsWith(" Major")) { // Ensure we're dealing with a major key
+        let option = new Option(key, key);
+        keySelect.add(option);
+      }
+    });
+  } else { // Minor mode
+    Object.keys(majorToMinorMapping).forEach(key => {
+      let minorKey = majorToMinorMapping[key];
+      let option = new Option(minorKey, key);
+      keySelect.add(option);
+    });
+  }
+}
 
 function highlightPianoKeys(notes) {
   const pianoKeys = document.querySelectorAll('#piano rect');
@@ -95,7 +139,6 @@ function normalizeNote(note) {
   return normalizationMap[note] || note;
 }
 
-
 function findKey() {
   const selectedNotes = Array.from(document.querySelectorAll('#piano rect'))
     .filter(key => key.style.fill === 'green')
@@ -122,9 +165,18 @@ function findKey() {
   matches.sort((a, b) => b.matchingNotesCount - a.matchingNotesCount);
   let topMatch = matches[0];
   let topMatches = matches.filter(match => match.matchPercentage === topMatch.matchPercentage);
+  if (currentMode === "Minor") {
+    topMatches = topMatches.map(match => {
+      return {
+        key: majorToMinorMapping[match.key] || match.key,
+        matchingNotesCount: match.matchingNotesCount,
+        matchPercentage: match.matchPercentage
+      };
+    });
+  }
 
   if (topMatch && topMatch.matchPercentage === 100) {
-    document.getElementById('possibleKey').innerHTML = `${topMatch.key} (100% match)`;
+    document.getElementById('possibleKey').innerHTML = `${topMatches[0].key} (100% match)`;
     document.getElementById('keySelect').value = topMatch.key;
     displayKeyDetails(topMatch.key)
   } else {
