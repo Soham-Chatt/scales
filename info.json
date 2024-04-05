@@ -11,11 +11,7 @@
 
     "F Major": ["F", "G", "A", "Bb", "C", "D", "E"],
     "Bb Major": ["Bb", "C", "D", "Eb", "F", "G", "A"],
-    "Eb Major": ["Eb", "F", "G", "Ab", "Bb", "C", "D"],
-    "Ab Major": ["Ab", "Bb", "C", "Db", "Eb", "F", "G"],
-    "Db Major": ["Db", "Eb", "F", "Gb", "Ab", "Bb", "C"],
-    "Gb Major": ["Gb", "Ab", "Bb", "Cb", "Db", "Eb", "F"],
-    "Cb Major": ["Cb", "Db", "Eb", "Fb", "Gb", "Ab", "Bb"]
+    "Eb Major": ["Eb", "F", "G", "Ab", "Bb", "C", "D"]
   },
   "chords": {
     "C Major": ["C", "Dm", "Em", "F", "G", "Am", "Bdim"],
@@ -29,10 +25,6 @@
 
     "F Major": ["F", "Gm", "Am", "Bb", "C", "Dm", "Edim"],
     "Bb Major": ["Bb", "Cm", "Dm", "Eb", "F", "Gm", "Adim"],
-    "Eb Major": ["Eb", "Fm", "Gm", "Ab", "Bb", "Cm", "Ddim"],
-    "Ab Major": ["Ab", "Bbm", "Cm", "Db", "Eb", "Fm", "Gdim"],
-    "Db Major": ["Db", "Ebm", "Fm", "Gb", "Ab", "Bbm", "Cdim"],
-    "Gb Major": ["Gb", "Abm", "Bbm", "Cb", "Db", "Ebm", "Fdim"],
-    "Cb Major": ["Cb", "Dbm", "Ebm", "Fb", "Gb", "Abm", "Bbdim"]
+    "Eb Major": ["Eb", "Fm", "Gm", "Ab", "Bb", "Cm", "Ddim"]
   }
 }
