@@ -53,9 +53,15 @@ function findKey() {
   }
 
   let matches = [];
+  const enharmonics = {'C#': 'Db', 'D#': 'Eb', 'F#': 'Gb', 'G#': 'Ab', 'A#': 'Bb'};
 
   Object.entries(scales).forEach(([key, notes]) => {
-    let matchingNotesCount = selectedNotes.filter(note => notes.includes(note)).length;
+    let matchingNotesCount = selectedNotes.filter(selectedNote => {
+      return notes.some(note => {
+        return note === selectedNote || note === enharmonics[selectedNote] || enharmonics[note] === selectedNote;
+      });
+    }).length;
+
     let matchPercentage = (matchingNotesCount / notes.length) * 100;
     if (matchingNotesCount > 0) {
       matches.push({ key, matchingNotesCount, matchPercentage });
@@ -63,16 +69,10 @@ function findKey() {
   });
 
   matches.sort((a, b) => b.matchingNotesCount - a.matchingNotesCount);
-
   let topMatch = matches[0];
-
   let topMatches = matches.filter(match => match.matchPercentage === topMatch.matchPercentage);
 
   if (topMatch && topMatch.matchPercentage === 100) {
-    let keySelect = document.getElementById('keySelect');
-    keySelect.value = topMatch.key;
-    displayKeyDetails(topMatch.key);
-
     document.getElementById('possibleKey').innerHTML = `${topMatch.key} (100% match)`;
   } else {
     document.getElementById('possibleKey').innerHTML = topMatches.slice(0, 3).map(match => `${match.key} (${match.matchPercentage.toFixed(2)}% match)`).join('<br>');
