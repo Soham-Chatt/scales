@@ -9,13 +9,39 @@ fetch("./info.json")
     initSelectOptions();
   });
 
-document.getElementById('keySelect').addEventListener('change', function() {
+document.getElementById('keySelect').addEventListener('change', function () {
   let selectedKey = this.value;
   displayKeyDetails(selectedKey);
 });
 
+document.addEventListener('DOMContentLoaded', function () {
+  const pianoKeys = document.querySelectorAll('#piano rect');
+  pianoKeys.forEach(key => {
+    key.addEventListener('click', function () {
+      this.style.fill = this.style.fill === 'green' ? (this.id.endsWith('#') ? 'black' : 'white') : 'green';
+      findKey();
+    });
+  });
+
+  initSelectOptions();
+});
+
 document.getElementById('clearNotes').onclick = clearSelectedNotes;
 document.getElementById('keyTable').style.display = 'none';
+
+function highlightPianoKeys(notes) {
+  const pianoKeys = document.querySelectorAll('#piano rect');
+  pianoKeys.forEach(key => {
+    key.style.fill = key.id.endsWith('#') ? 'black' : 'white';
+  });
+
+  notes.forEach(note => {
+    const key = document.getElementById(note);
+    if (key) {
+      key.style.fill = 'green';
+    }
+  });
+}
 
 function displayKeyDetails(key) {
   let keyDetails = document.getElementById('keyDetails');
@@ -29,6 +55,8 @@ function displayKeyDetails(key) {
     let chordsForKey = chords[key] || [];
     let maxLength = Math.max(notes.length, chordsForKey.length);
 
+    highlightPianoKeys(notes);
+
     for (let i = 0; i < maxLength; i++) {
       let note = notes[i] || '';
       let chord = chordsForKey[i] || '';
@@ -37,12 +65,15 @@ function displayKeyDetails(key) {
     }
   } else {
     keyTable.style.display = 'none';
+    highlightPianoKeys([]);
   }
 }
 
 function findKey() {
   let selectedButtons = Array.from(document.querySelectorAll('#noteButtons .btn-success'));
-  let selectedNotes = selectedButtons.map(btn => btn.dataset.note);
+  const selectedNotes = Array.from(document.querySelectorAll('#piano rect'))
+    .filter(key => key.style.fill === 'green')
+    .map(key => key.id);
 
   document.getElementById('possibleKey').style.display = selectedNotes.length === 0 ? 'none' : 'block';
 
@@ -64,7 +95,7 @@ function findKey() {
 
     let matchPercentage = (matchingNotesCount / notes.length) * 100;
     if (matchingNotesCount > 0) {
-      matches.push({ key, matchingNotesCount, matchPercentage });
+      matches.push({key, matchingNotesCount, matchPercentage});
     }
   });
 
@@ -74,17 +105,16 @@ function findKey() {
 
   if (topMatch && topMatch.matchPercentage === 100) {
     document.getElementById('possibleKey').innerHTML = `${topMatch.key} (100% match)`;
+    document.getElementById('keySelect').value = topMatch.key;
+    displayKeyDetails(topMatch.key)
   } else {
     document.getElementById('possibleKey').innerHTML = topMatches.slice(0, 3).map(match => `${match.key} (${match.matchPercentage.toFixed(2)}% match)`).join('<br>');
   }
 }
 
-
 function clearSelectedNotes() {
-  let selectedButtons = document.querySelectorAll('#noteButtons .btn-success');
-
-  selectedButtons.forEach(button => {
-    button.classList.remove('btn-success');
+  document.querySelectorAll('#piano rect').forEach(key => {
+    key.style.fill = key.id.endsWith('#') ? 'black' : 'white';
   });
 
   document.getElementById('possibleKey').textContent = 'Please select notes to find a key';
@@ -95,7 +125,7 @@ function initSelectOptions() {
 
   keySelect.innerHTML = '<option selected>Choose a key</option>';
 
-  Object.keys(scales).forEach(function(key) {
+  Object.keys(scales).forEach(function (key) {
     let option = new Option(key, key);
     keySelect.add(option);
   });
@@ -111,11 +141,11 @@ function initSelectOptions() {
 
   allNotes.forEach(note => {
     let button = document.createElement('button');
-    button.classList.add('btn', 'btn-lg','btn-outline-light', 'm-1');
+    button.classList.add('btn', 'btn-lg', 'btn-outline-light', 'm-1');
     button.textContent = note;
     button.dataset.note = note;
 
-    button.onclick = function() {
+    button.onclick = function () {
       this.classList.toggle('btn-success');
       findKey();
     };

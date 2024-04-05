@@ -11,7 +11,7 @@
 
 <div class="text-center container col-8 mb-5">
 
-    <h2>Select a Musical Key or Select Notes to Find Key</h2>
+    <h2>Select a key signature or select keys to find key signature</h2>
     <label for="keySelect"></label><select id="keySelect" class="form-select"></select>
 
     <table id="keyTable" class="table table-dark table-striped">
@@ -27,10 +27,25 @@
     </table>
 </div>
 
-<div class="container col-12 mb-5">
-    <div id="noteButtons" class="d-flex flex-wrap">
-        <!-- Note buttons here -->
-    </div>
+<div class="container text-center col-12 mb-5">
+    <svg id="piano" xml:space="preserve" viewBox="0 0 161 120" width="483px" height="360px">
+    <!-- White keys -->
+    <rect id="C" style="fill:white;stroke:black" x="0" y="0" width="23" height="120" />
+        <rect id="D" style="fill:white;stroke:black" x="23" y="0" width="23" height="120" />
+        <rect id="E" style="fill:white;stroke:black" x="46" y="0" width="23" height="120" />
+        <rect id="F" style="fill:white;stroke:black" x="69" y="0" width="23" height="120" />
+        <rect id="G" style="fill:white;stroke:black" x="92" y="0" width="23" height="120" />
+        <rect id="A" style="fill:white;stroke:black" x="115" y="0" width="23" height="120" />
+        <rect id="B" style="fill:white;stroke:black" x="138" y="0" width="23" height="120" />
+
+        <!-- Black keys -->
+        <rect id="C#" style="fill:black;stroke:black" x="17" y="0" width="13" height="80" />
+        <rect id="D#" style="fill:black;stroke:black" x="40" y="0" width="13" height="80" />
+        <!-- Gap for E to F -->
+        <rect id="F#" style="fill:black;stroke:black" x="95" y="0" width="13" height="80" />
+        <rect id="G#" style="fill:black;stroke:black" x="118" y="0" width="13" height="80" />
+        <rect id="A#" style="fill:black;stroke:black" x="141" y="0" width="13" height="80" />
+    </svg>
     <button id="clearNotes" class="btn btn-lg btn-danger mt-3">Clear</button>
     <h3 id="possibleKey" class="pt-3"></h3>
 </div>
