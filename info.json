@@ -8,6 +8,7 @@
     "B Major": ["B", "C#", "D#", "E", "F#", "G#", "A#"],
     "F# Major": ["F#", "G#", "A#", "B", "C#", "D#", "E#"],
     "C# Major": ["C#", "D#", "E#", "F#", "G#", "A#", "B#"],
+
     "F Major": ["F", "G", "A", "Bb", "C", "D", "E"],
     "Bb Major": ["Bb", "C", "D", "Eb", "F", "G", "A"],
     "Eb Major": ["Eb", "F", "G", "Ab", "Bb", "C", "D"],
@@ -25,6 +26,7 @@
     "B Major": ["B", "C#m", "D#m", "E", "F#", "G#m", "A#dim"],
     "F# Major": ["F#", "G#m", "A#", "B", "C#", "D#m", "E#dim"],
     "C# Major": ["C#", "D#m", "E#", "F#", "G#", "A#", "B#dim"],
+
     "F Major": ["F", "Gm", "Am", "Bb", "C", "Dm", "Edim"],
     "Bb Major": ["Bb", "Cm", "Dm", "Eb", "F", "Gm", "Adim"],
     "Eb Major": ["Eb", "Fm", "Gm", "Ab", "Bb", "Cm", "Ddim"],

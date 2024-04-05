@@ -1,5 +1,9 @@
 let scales = {};
 let chords = {};
+const enharmonics = {
+  'C#': 'Db', 'D#': 'Eb', 'F#': 'Gb', 'G#': 'Ab', 'A#': 'Bb',
+  'B#': 'C', 'E#': 'F',
+};
 
 fetch("./info.json")
   .then(response => response.json())
@@ -18,13 +22,21 @@ document.addEventListener('DOMContentLoaded', function () {
   const pianoKeys = document.querySelectorAll('#piano rect');
   pianoKeys.forEach(key => {
     key.addEventListener('click', function () {
-      this.style.fill = this.style.fill === 'green' ? (this.id.endsWith('#') ? 'black' : 'white') : 'green';
-      findKey();
+      const selectedCount = Array.from(document.querySelectorAll('#piano rect'))
+        .filter(rect => rect.style.fill === 'green').length;
+
+      if (this.style.fill === 'green' || selectedCount < 7) {
+        this.style.fill = this.style.fill === 'green' ? (this.id.endsWith('#') ? 'black' : 'white') : 'green';
+        findKey();
+      } else {
+        alert('You cannot select more than 7 notes!');
+      }
     });
   });
 
   initSelectOptions();
 });
+
 
 document.getElementById('clearNotes').onclick = clearSelectedNotes;
 document.getElementById('keyTable').style.display = 'none';
@@ -54,12 +66,13 @@ function displayKeyDetails(key) {
     let notes = scales[key] || [];
     let chordsForKey = chords[key] || [];
     let maxLength = Math.max(notes.length, chordsForKey.length);
+    notes = notes.map(note => normalizeNote(note));
 
     highlightPianoKeys(notes);
 
     for (let i = 0; i < maxLength; i++) {
-      let note = notes[i] || '';
-      let chord = chordsForKey[i] || '';
+      let note = scales[key][i] || '';
+      let chord = chords[key][i] || '';
       let row = `<tr><td>${note}</td><td>${chord}</td></tr>`;
       keyDetails.innerHTML += row;
     }
@@ -69,22 +82,29 @@ function displayKeyDetails(key) {
   }
 }
 
+function normalizeNote(note) {
+  const normalizationMap = {
+    'C#': 'C#', 'Db': 'C#',
+    'D#': 'D#', 'Eb': 'D#',
+    'E#': 'F',
+    'F#': 'F#', 'Gb': 'F#',
+    'G#': 'G#', 'Ab': 'G#',
+    'A#': 'A#', 'Bb': 'A#',
+    'B#': 'C'
+  };
+  return normalizationMap[note] || note;
+}
+
+
 function findKey() {
-  let selectedButtons = Array.from(document.querySelectorAll('#noteButtons .btn-success'));
   const selectedNotes = Array.from(document.querySelectorAll('#piano rect'))
     .filter(key => key.style.fill === 'green')
-    .map(key => key.id);
+    .map(key => key.id)
+    .map(note => normalizeNote(note));
 
   document.getElementById('possibleKey').style.display = selectedNotes.length === 0 ? 'none' : 'block';
 
-  if (selectedNotes.length > 7) {
-    alert('Please select at most 7 notes');
-    selectedButtons[selectedButtons.length - 1].classList.remove('btn-success');
-    return;
-  }
-
   let matches = [];
-  const enharmonics = {'C#': 'Db', 'D#': 'Eb', 'F#': 'Gb', 'G#': 'Ab', 'A#': 'Bb'};
 
   Object.entries(scales).forEach(([key, notes]) => {
     let matchingNotesCount = selectedNotes.filter(selectedNote => {
@@ -116,8 +136,10 @@ function clearSelectedNotes() {
   document.querySelectorAll('#piano rect').forEach(key => {
     key.style.fill = key.id.endsWith('#') ? 'black' : 'white';
   });
-
-  document.getElementById('possibleKey').textContent = 'Please select notes to find a key';
+  document.getElementById('possibleKey').style.display = 'none';
+  document.getElementById('keySelect').value = 'Choose a key';
+  document.getElementById('keyTable').style.display = 'none';
+  document.getElementById('keyDetails').innerHTML = '';
 }
 
 function initSelectOptions() {
@@ -136,9 +158,6 @@ function initSelectOptions() {
   allNotes = allNotes.concat(allNotes.splice(0, allNotes.indexOf('C')));
   allNotes = allNotes.filter(note => !note.includes('b'));
 
-  let noteButtonsContainer = document.getElementById('noteButtons');
-  noteButtonsContainer.innerHTML = '';
-
   allNotes.forEach(note => {
     let button = document.createElement('button');
     button.classList.add('btn', 'btn-lg', 'btn-outline-light', 'm-1');
@@ -149,8 +168,6 @@ function initSelectOptions() {
       this.classList.toggle('btn-success');
       findKey();
     };
-
-    noteButtonsContainer.appendChild(button);
   });
 }
 
