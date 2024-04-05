@@ -1,0 +1,36 @@
+{
+  "scales": {
+    "C Major": ["C", "D", "E", "F", "G", "A", "B"],
+    "G Major": ["G", "A", "B", "C", "D", "E", "F#"],
+    "D Major": ["D", "E", "F#", "G", "A", "B", "C#"],
+    "A Major": ["A", "B", "C#", "D", "E", "F#", "G#"],
+    "E Major": ["E", "F#", "G#", "A", "B", "C#", "D#"],
+    "B Major": ["B", "C#", "D#", "E", "F#", "G#", "A#"],
+    "F# Major": ["F#", "G#", "A#", "B", "C#", "D#", "E#"],
+    "C# Major": ["C#", "D#", "E#", "F#", "G#", "A#", "B#"],
+    "F Major": ["F", "G", "A", "Bb", "C", "D", "E"],
+    "Bb Major": ["Bb", "C", "D", "Eb", "F", "G", "A"],
+    "Eb Major": ["Eb", "F", "G", "Ab", "Bb", "C", "D"],
+    "Ab Major": ["Ab", "Bb", "C", "Db", "Eb", "F", "G"],
+    "Db Major": ["Db", "Eb", "F", "Gb", "Ab", "Bb", "C"],
+    "Gb Major": ["Gb", "Ab", "Bb", "Cb", "Db", "Eb", "F"],
+    "Cb Major": ["Cb", "Db", "Eb", "Fb", "Gb", "Ab", "Bb"]
+  },
+  "chords": {
+    "C Major": ["C", "Dm", "Em", "F", "G", "Am", "Bdim"],
+    "G Major": ["G", "Am", "Bm", "C", "D", "Em", "F#dim"],
+    "D Major": ["D", "E", "F#m", "G", "A", "Bm", "C#dim"],
+    "A Major": ["A", "Bm", "C#m", "D", "E", "F#m", "G#dim"],
+    "E Major": ["E", "F#m", "G#m", "A", "B", "C#m", "D#dim"],
+    "B Major": ["B", "C#m", "D#m", "E", "F#", "G#m", "A#dim"],
+    "F# Major": ["F#", "G#m", "A#", "B", "C#", "D#m", "E#dim"],
+    "C# Major": ["C#", "D#m", "E#", "F#", "G#", "A#", "B#dim"],
+    "F Major": ["F", "Gm", "Am", "Bb", "C", "Dm", "Edim"],
+    "Bb Major": ["Bb", "Cm", "Dm", "Eb", "F", "Gm", "Adim"],
+    "Eb Major": ["Eb", "Fm", "Gm", "Ab", "Bb", "Cm", "Ddim"],
+    "Ab Major": ["Ab", "Bbm", "Cm", "Db", "Eb", "Fm", "Gdim"],
+    "Db Major": ["Db", "Ebm", "Fm", "Gb", "Ab", "Bbm", "Cdim"],
+    "Gb Major": ["Gb", "Abm", "Bbm", "Cb", "Db", "Ebm", "Fdim"],
+    "Cb Major": ["Cb", "Dbm", "Ebm", "Fb", "Gb", "Abm", "Bbdim"]
+  }
+}
